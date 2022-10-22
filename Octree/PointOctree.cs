@@ -7,7 +7,6 @@
 // </copyright>
 namespace Octree
 {
-    using NLog;
     using System.Collections.Generic;
     using System.Numerics;
 
@@ -29,11 +28,6 @@ namespace Octree
     /// <typeparam name="T">The content of the octree can be anything, since the bounds data is supplied separately.</typeparam>
     public partial class PointOctree<T>
     {
-        /// <summary>
-        /// The logger
-        /// </summary>
-        private static readonly Logger Logger = LogManager.GetLogger("octree");
-
         /// <summary>
         /// Root node of the octree
         /// </summary>
@@ -84,7 +78,7 @@ namespace Octree
         {
             if (minNodeSize > initialWorldSize)
             {
-                Logger.Warn(
+                System.Diagnostics.Debug.WriteLine(
                     "Minimum node size must be at least as big as the initial world size. Was: " + minNodeSize
                     + " Adjusted to: " + initialWorldSize);
                 minNodeSize = initialWorldSize;
@@ -111,7 +105,7 @@ namespace Octree
                 Grow(objPos - _rootNode.Center);
                 if (++count > 20)
                 {
-                    Logger.Error(
+                    System.Diagnostics.Debug.WriteLine(
                         "Aborted Add operation as it seemed to be going on forever (" + (count - 1)
                         + ") attempts at growing the octree.");
                     return;

@@ -7,7 +7,6 @@
 // </copyright>
 namespace Octree
 {
-    using NLog;
     using System.Collections.Generic;
     using System.Linq;
     using System.Numerics;
@@ -19,11 +18,6 @@ namespace Octree
         /// </summary>
         private class Node
         {
-            /// <summary>
-            /// The logger
-            /// </summary>
-            private static readonly Logger Logger = LogManager.GetLogger("octree");
-
             /// <summary>
             /// Center of this node
             /// </summary>
@@ -309,7 +303,7 @@ namespace Octree
             {
                 if (childOctrees.Length != 8)
                 {
-                    Logger.Error("Child octree array must be length 8. Was length: " + childOctrees.Length);
+                    System.Diagnostics.Debug.WriteLine("Child octree array must be length 8. Was length: " + childOctrees.Length);
                     return;
                 }
 
@@ -490,7 +484,7 @@ namespace Octree
                         Split();
                         if (_children == null)
                         {
-                            Logger.Error("Child creation failed for an unknown reason. Early exit.");
+                            System.Diagnostics.Debug.WriteLine("Child creation failed for an unknown reason. Early exit.");
                             return;
                         }
 
