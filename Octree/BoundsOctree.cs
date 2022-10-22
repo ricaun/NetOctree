@@ -8,7 +8,7 @@
 namespace Octree
 {
     using System.Collections.Generic;
-    using System.Numerics;
+    using System.DoubleNumerics;
 
     /// <summary>
     /// A Dynamic, Loose Octree for storing any objects that can be described with AABB bounds
@@ -47,17 +47,17 @@ namespace Octree
         /// <remarks>
         /// 1.0 is a "normal" octree, while values > 1 have overlap
         /// </remarks>
-        private readonly float _looseness;
+        private readonly double _looseness;
 
         /// <summary>
         /// Size that the octree was on creation
         /// </summary>
-        private readonly float _initialSize;
+        private readonly double _initialSize;
 
         /// <summary>
         /// Minimum side length that a node can be - essentially an alternative to having a max depth
         /// </summary>
-        private readonly float _minSize;
+        private readonly double _minSize;
 
         /// <summary>
         /// The total amount of objects currently in the tree
@@ -91,7 +91,7 @@ namespace Octree
         /// <param name="initialWorldPos">Position of the center of the initial node.</param>
         /// <param name="minNodeSize">Nodes will stop splitting if the new nodes would be smaller than this (metres).</param>
         /// <param name="loosenessVal">Clamped between 1 and 2. Values > 1 let nodes overlap.</param>
-        public BoundsOctree(float initialWorldSize, Vector3 initialWorldPos, float minNodeSize, float loosenessVal)
+        public BoundsOctree(double initialWorldSize, Vector3 initialWorldPos, double minNodeSize, double loosenessVal)
         {
             if (minNodeSize > initialWorldSize)
             {
@@ -187,7 +187,7 @@ namespace Octree
         /// <param name="checkRay">ray to check.</param>
         /// <param name="maxDistance">distance to check.</param>
         /// <returns>True if there was a collision.</returns>
-        public bool IsColliding(Ray checkRay, float maxDistance)
+        public bool IsColliding(Ray checkRay, double maxDistance)
         {
             return _rootNode.IsColliding(ref checkRay, maxDistance);
         }
@@ -214,7 +214,7 @@ namespace Octree
         /// <param name="checkRay">ray to check.</param>
         /// <param name="maxDistance">distance to check.</param>
         /// <returns>Objects that intersect with the specified ray.</returns>
-        public T[] GetColliding(Ray checkRay, float maxDistance = float.PositiveInfinity)
+        public T[] GetColliding(Ray checkRay, double maxDistance = float.PositiveInfinity)
         {
             List<T> collidingWith = new List<T>();
             _rootNode.GetColliding(ref checkRay, collidingWith, maxDistance);
@@ -245,7 +245,7 @@ namespace Octree
         /// <param name="checkRay">ray to check.</param>
         /// <param name="maxDistance">distance to check.</param>
         /// <returns><c>true</c> if items are found, <c>false</c> otherwise.</returns>
-        public bool GetCollidingNonAlloc(List<T> collidingWith, Ray checkRay, float maxDistance = float.PositiveInfinity)
+        public bool GetCollidingNonAlloc(List<T> collidingWith, Ray checkRay, double maxDistance = float.PositiveInfinity)
         {
             collidingWith.Clear();
             _rootNode.GetColliding(ref checkRay, collidingWith, maxDistance);
@@ -264,8 +264,8 @@ namespace Octree
             int yDirection = direction.Y >= 0 ? 1 : -1;
             int zDirection = direction.Z >= 0 ? 1 : -1;
             Node oldRoot = _rootNode;
-            float half = _rootNode.BaseLength / 2;
-            float newLength = _rootNode.BaseLength * 2;
+            double half = _rootNode.BaseLength / 2;
+            double newLength = _rootNode.BaseLength * 2;
             Vector3 newCenter = _rootNode.Center + new Vector3(xDirection * half, yDirection * half, zDirection * half);
 
             // Create a new, bigger octree root node

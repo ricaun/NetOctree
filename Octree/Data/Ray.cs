@@ -8,7 +8,7 @@
 namespace Octree
 {
     using System;
-    using System.Numerics;
+    using System.DoubleNumerics;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -59,7 +59,7 @@ namespace Octree
         /// </summary>
         /// <param name="distance">The distance.</param>
         /// <returns>The point on the ray.</returns>
-        public Vector3 GetPoint(float distance)
+        public Vector3 GetPoint(double distance)
         {
             return Origin + Direction * distance;
         }

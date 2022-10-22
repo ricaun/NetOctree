@@ -36,4 +36,8 @@
     <Folder Include="Data\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.DoubleNumerics" Version="*" />
+  </ItemGroup>
+  
 </Project>

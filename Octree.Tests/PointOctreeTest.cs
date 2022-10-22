@@ -9,8 +9,8 @@ namespace Octree.Tests
     using Shouldly;
     using System;
     using System.Collections.Generic;
+    using System.DoubleNumerics;
     using System.Linq;
-    using System.Numerics;
     using Xunit;
 
     public class PointOctreeTest

@@ -1,7 +1,7 @@
 .NET Octree
 ===========
 
-A dynamic octree implementation written in C# as a .NET Standard 2.1 library, built on the `System.Numerics` library.
+A dynamic octree implementation written in C# as a .NET Standard 2.1 library, built on the `System.DoubleNumerics` library.
 
 Description
 -----------
@@ -82,7 +82,7 @@ DataType[] nearby = pointTree.GetNearby(myRay, 4);
 ```C#
 DataType[] nearby = pointTree.GetNearby(myPos, 4);
 ```
-- Where `myPos` is a `Vector3` from `System.Numerics`
+- Where `myPos` is a `Vector3` from `System.DoubleNumerics`
 
 **Non-Alloc query functions**
 

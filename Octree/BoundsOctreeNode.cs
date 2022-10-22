@@ -8,7 +8,7 @@
 namespace Octree
 {
     using System.Collections.Generic;
-    using System.Numerics;
+    using System.DoubleNumerics;
 
     public partial class BoundsOctree<T>
     {
@@ -25,22 +25,22 @@ namespace Octree
             /// <summary>
             /// Length of this node if it has a looseness of 1.0
             /// </summary>
-            public float BaseLength { get; private set; }
+            public double BaseLength { get; private set; }
 
             /// <summary>
             /// Looseness value for this node
             /// </summary>
-            private float _looseness;
+            private double _looseness;
 
             /// <summary>
             /// Minimum size for a node in this octree
             /// </summary>
-            private float _minSize;
+            private double _minSize;
 
             /// <summary>
             /// Actual length of sides, taking the looseness value into account
             /// </summary>
-            private float _adjLength;
+            private double _adjLength;
 
             /// <summary>
             /// Bounding box that represents this node
@@ -126,7 +126,7 @@ namespace Octree
             /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
             /// <param name="loosenessVal">Multiplier for baseLengthVal to get the actual size.</param>
             /// <param name="centerVal">Centre position of this node.</param>
-            public Node(float baseLengthVal, float minSizeVal, float loosenessVal, Vector3 centerVal)
+            public Node(double baseLengthVal, double minSizeVal, double loosenessVal, Vector3 centerVal)
             {
                 SetValues(baseLengthVal, minSizeVal, loosenessVal, centerVal);
             }
@@ -246,10 +246,10 @@ namespace Octree
             /// <param name="checkRay">Ray to check.</param>
             /// <param name="maxDistance">Distance to check.</param>
             /// <returns>True if there was a collision.</returns>
-            public bool IsColliding(ref Ray checkRay, float maxDistance = float.PositiveInfinity)
+            public bool IsColliding(ref Ray checkRay, double maxDistance = float.PositiveInfinity)
             {
                 // Is the input ray at least partially in this node?
-                float distance;
+                double distance;
                 if (!_bounds.IntersectRay(checkRay, out distance) || distance > maxDistance)
                 {
                     return false;
@@ -319,9 +319,9 @@ namespace Octree
             /// <param name="maxDistance">Distance to check.</param>
             /// <param name="result">List result.</param>
             /// <returns>Objects that intersect with the specified ray.</returns>
-            public void GetColliding(ref Ray checkRay, List<T> result, float maxDistance = float.PositiveInfinity)
+            public void GetColliding(ref Ray checkRay, List<T> result, double maxDistance = float.PositiveInfinity)
             {
-                float distance;
+                double distance;
                 // Is the input ray at least partially in this node?
                 if (!_bounds.IntersectRay(checkRay, out distance) || distance > maxDistance)
                 {
@@ -371,7 +371,7 @@ namespace Octree
             /// </summary>
             /// <param name="minLength">Minimum dimensions of a node in this octree.</param>
             /// <returns>The new root, or the existing one if we didn't shrink.</returns>
-            public Node ShrinkIfPossible(float minLength)
+            public Node ShrinkIfPossible(double minLength)
             {
                 if (BaseLength < (2 * minLength))
                 {
@@ -491,7 +491,7 @@ namespace Octree
             /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
             /// <param name="loosenessVal">Multiplier for baseLengthVal to get the actual size.</param>
             /// <param name="centerVal">Center position of this node.</param>
-            private void SetValues(float baseLengthVal, float minSizeVal, float loosenessVal, Vector3 centerVal)
+            private void SetValues(double baseLengthVal, double minSizeVal, double loosenessVal, Vector3 centerVal)
             {
                 BaseLength = baseLengthVal;
                 _minSize = minSizeVal;
@@ -503,8 +503,8 @@ namespace Octree
                 Vector3 size = new Vector3(_adjLength, _adjLength, _adjLength);
                 _bounds = new BoundingBox(Center, size);
 
-                float quarter = BaseLength / 4f;
-                float childActualLength = (BaseLength / 2) * _looseness;
+                double quarter = BaseLength / 4f;
+                double childActualLength = (BaseLength / 2) * _looseness;
                 Vector3 childActualSize = new Vector3(childActualLength, childActualLength, childActualLength);
                 _childBounds = new BoundingBox[8];
                 _childBounds[0] = new BoundingBox(Center + new Vector3(-quarter, quarter, -quarter), childActualSize);
@@ -622,8 +622,8 @@ namespace Octree
             /// </summary>
             private void Split()
             {
-                float quarter = BaseLength / 4f;
-                float newLength = BaseLength / 2;
+                double quarter = BaseLength / 4f;
+                double newLength = BaseLength / 2;
                 _children = new Node[8];
                 _children[0] = new Node(
                     newLength,

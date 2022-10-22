@@ -8,7 +8,7 @@
 namespace Octree
 {
     using System.Collections.Generic;
-    using System.Numerics;
+    using System.DoubleNumerics;
 
     /// <summary>
     /// A Dynamic Octree for storing any objects that can be described as a single point
@@ -36,12 +36,12 @@ namespace Octree
         /// <summary>
         /// Size that the octree was on creation
         /// </summary>
-        private readonly float _initialSize;
+        private readonly double _initialSize;
 
         /// <summary>
         /// Minimum side length that a node can be - essentially an alternative to having a max depth
         /// </summary>
-        private readonly float _minSize;
+        private readonly double _minSize;
 
         /// <summary>
         /// The total amount of objects currently in the tree
@@ -74,7 +74,7 @@ namespace Octree
         /// <param name="initialWorldSize">Size of the sides of the initial node. The octree will never shrink smaller than this.</param>
         /// <param name="initialWorldPos">Position of the centre of the initial node.</param>
         /// <param name="minNodeSize">Nodes will stop splitting if the new nodes would be smaller than this.</param>
-        public PointOctree(float initialWorldSize, Vector3 initialWorldPos, float minNodeSize)
+        public PointOctree(double initialWorldSize, Vector3 initialWorldPos, double minNodeSize)
         {
             if (minNodeSize > initialWorldSize)
             {
@@ -160,7 +160,7 @@ namespace Octree
         /// <param name="ray">The ray. Passing as ref to improve performance since it won't have to be copied.</param>
         /// <param name="maxDistance">Maximum distance from the ray to consider.</param>
         /// <returns>Objects within range.</returns>
-        public T[] GetNearby(Ray ray, float maxDistance)
+        public T[] GetNearby(Ray ray, double maxDistance)
         {
             List<T> collidingWith = new List<T>();
             _rootNode.GetNearby(ref ray, maxDistance, collidingWith);
@@ -174,7 +174,7 @@ namespace Octree
         /// <param name="position">The position. Passing as ref to improve performance since it won't have to be copied.</param>
         /// <param name="maxDistance">Maximum distance from the position to consider.</param>
         /// <returns>Objects within range.</returns>
-        public T[] GetNearby(Vector3 position, float maxDistance)
+        public T[] GetNearby(Vector3 position, double maxDistance)
         {
             List<T> collidingWith = new List<T>();
             _rootNode.GetNearby(ref position, maxDistance, collidingWith);
@@ -189,7 +189,7 @@ namespace Octree
         /// <param name="maxDistance">Maximum distance from the ray to consider.</param>
         /// <param name="nearby">Pre-initialized list to populate.</param>
         /// <returns><c>true</c> if items are found, <c>false</c> otherwise.</returns>
-        public bool GetNearbyNonAlloc(Ray ray, float maxDistance, List<T> nearby)
+        public bool GetNearbyNonAlloc(Ray ray, double maxDistance, List<T> nearby)
         {
             nearby.Clear();
             _rootNode.GetNearby(ref ray, maxDistance, nearby);
@@ -204,7 +204,7 @@ namespace Octree
         /// <param name="maxDistance">Maximum distance from the position to consider.</param>
         /// <param name="nearby">Pre-initialized list to populate.</param>
         /// <returns><c>true</c> if items are found, <c>false</c> otherwise.</returns>
-        public bool GetNearbyNonAlloc(Vector3 position, float maxDistance, List<T> nearby)
+        public bool GetNearbyNonAlloc(Vector3 position, double maxDistance, List<T> nearby)
         {
             nearby.Clear();
             _rootNode.GetNearby(ref position, maxDistance, nearby);
@@ -235,8 +235,8 @@ namespace Octree
             int yDirection = direction.Y >= 0 ? 1 : -1;
             int zDirection = direction.Z >= 0 ? 1 : -1;
             Node oldRoot = _rootNode;
-            float half = _rootNode.SideLength / 2;
-            float newLength = _rootNode.SideLength * 2;
+            double half = _rootNode.SideLength / 2;
+            double newLength = _rootNode.SideLength * 2;
             Vector3 newCenter = _rootNode.Center + new Vector3(xDirection * half, yDirection * half, zDirection * half);
 
             // Create a new, bigger octree root node

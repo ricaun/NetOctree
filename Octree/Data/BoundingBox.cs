@@ -8,7 +8,7 @@
 namespace Octree
 {
     using System;
-    using System.Numerics;
+    using System.DoubleNumerics;
     using System.Runtime.Serialization;
 
     /// <summary>
@@ -111,7 +111,7 @@ namespace Octree
         /// Expands the bounds by increasing its <see cref="Size"/> by <paramref name="amount"/> along each side.
         /// </summary>
         /// <param name="amount">The expansions for each dimension.</param>
-        public void Expand(float amount)
+        public void Expand(double amount)
         {
             amount *= 0.5f;
             Extents += new Vector3(amount, amount, amount);
@@ -159,7 +159,7 @@ namespace Octree
         /// <returns><c>true</c> if the box intersects with the ray, <c>false</c> otherwise.</returns>
         public bool IntersectRay(Ray ray)
         {
-            float distance;
+            double distance;
             return IntersectRay(ray, out distance);
         }
 
@@ -169,7 +169,7 @@ namespace Octree
         /// <param name="ray">The ray to test.</param>
         /// <param name="distance">The calculated distance from the origin of the ray to the box along the ray.</param>
         /// <returns><c>true</c> if the box intersects with the ray, <c>false</c> otherwise.</returns>
-        public bool IntersectRay(Ray ray, out float distance)
+        public bool IntersectRay(Ray ray, out double distance)
         {
             Vector3 dirFrac = new Vector3(
                 1f / ray.Direction.X,
@@ -177,15 +177,15 @@ namespace Octree
                 1f / ray.Direction.Z
             );
 
-            float t1 = (Min.X - ray.Origin.X) * dirFrac.X;
-            float t2 = (Max.X - ray.Origin.X) * dirFrac.X;
-            float t3 = (Min.Y - ray.Origin.Y) * dirFrac.Y;
-            float t4 = (Max.Y - ray.Origin.Y) * dirFrac.Y;
-            float t5 = (Min.Z - ray.Origin.Z) * dirFrac.Z;
-            float t6 = (Max.Z - ray.Origin.Z) * dirFrac.Z;
+            double t1 = (Min.X - ray.Origin.X) * dirFrac.X;
+            double t2 = (Max.X - ray.Origin.X) * dirFrac.X;
+            double t3 = (Min.Y - ray.Origin.Y) * dirFrac.Y;
+            double t4 = (Max.Y - ray.Origin.Y) * dirFrac.Y;
+            double t5 = (Min.Z - ray.Origin.Z) * dirFrac.Z;
+            double t6 = (Max.Z - ray.Origin.Z) * dirFrac.Z;
 
-            float tmin = Math.Max(Math.Max(Math.Min(t1, t2), Math.Min(t3, t4)), Math.Min(t5, t6));
-            float tmax = Math.Min(Math.Min(Math.Max(t1, t2), Math.Max(t3, t4)), Math.Max(t5, t6));
+            double tmin = Math.Max(Math.Max(Math.Min(t1, t2), Math.Min(t3, t4)), Math.Min(t5, t6));
+            double tmax = Math.Min(Math.Min(Math.Max(t1, t2), Math.Max(t3, t4)), Math.Max(t5, t6));
 
             // if tmax < 0, ray (line) is intersecting AABB, but the whole AABB is behind us
             if (tmax < 0)

@@ -19,7 +19,7 @@ namespace Octree
         /// <param name="min">The minimum.</param>
         /// <param name="max">The maximum.</param>
         /// <returns>The clamped value.</returns>
-        public static float Clamp(float value, float min, float max)
+        public static double Clamp(double value, double min, double max)
         {
             if (value < min)
                 return min;

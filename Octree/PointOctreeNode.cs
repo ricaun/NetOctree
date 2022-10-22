@@ -8,8 +8,8 @@
 namespace Octree
 {
     using System.Collections.Generic;
+    using System.DoubleNumerics;
     using System.Linq;
-    using System.Numerics;
 
     public partial class PointOctree<T>
     {
@@ -26,12 +26,12 @@ namespace Octree
             /// <summary>
             /// Length of the sides of this node
             /// </summary>
-            public float SideLength { get; private set; }
+            public double SideLength { get; private set; }
 
             /// <summary>
             /// Minimum size for a node in this octree
             /// </summary>
-            private float _minSize;
+            private double _minSize;
 
             /// <summary>
             /// Bounding box that represents this node
@@ -121,7 +121,7 @@ namespace Octree
             /// <param name="baseLengthVal">Length of this node, not taking looseness into account.</param>
             /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
             /// <param name="centerVal">Center position of this node.</param>
-            public Node(float baseLengthVal, float minSizeVal, Vector3 centerVal)
+            public Node(double baseLengthVal, double minSizeVal, Vector3 centerVal)
             {
                 SetValues(baseLengthVal, minSizeVal, centerVal);
             }
@@ -205,7 +205,7 @@ namespace Octree
             /// <param name="maxDistance">Maximum distance from the ray to consider.</param>
             /// <param name="result">List result.</param>
             /// <returns>Objects within range.</returns>
-            public void GetNearby(ref Ray ray, float maxDistance, List<T> result)
+            public void GetNearby(ref Ray ray, double maxDistance, List<T> result)
             {
                 // Does the ray hit this node at all?
                 // Note: Expanding the bounds is not exactly the same as a real distance check, but it's fast.
@@ -244,7 +244,7 @@ namespace Octree
             /// <param name="maxDistance">Maximum distance from the position to consider.</param>
             /// <param name="result">List result.</param>
             /// <returns>Objects within range.</returns>
-            public void GetNearby(ref Vector3 position, float maxDistance, List<T> result)
+            public void GetNearby(ref Vector3 position, double maxDistance, List<T> result)
             {
                 // Does the node contain this position at all?
                 // Note: Expanding the bounds is not exactly the same as a real distance check, but it's fast.
@@ -319,7 +319,7 @@ namespace Octree
             /// </summary>
             /// <param name="minLength">Minimum dimensions of a node in this octree.</param>
             /// <returns>The new root, or the existing one if we didn't shrink.</returns>
-            public Node ShrinkIfPossible(float minLength)
+            public Node ShrinkIfPossible(double minLength)
             {
                 if (SideLength < (2 * minLength))
                 {
@@ -419,7 +419,7 @@ namespace Octree
             /// <param name="ray">The ray.</param>
             /// <param name="point">The point to check distance from the ray.</param>
             /// <returns>Squared distance from the point to the closest point of the ray.</returns>
-            public static float SqrDistanceToRay(Ray ray, Vector3 point)
+            public static double SqrDistanceToRay(Ray ray, Vector3 point)
             {
                 return Vector3.Cross(ray.Direction, point - ray.Origin).LengthSquared();
             }
@@ -432,7 +432,7 @@ namespace Octree
             /// <param name="baseLengthVal">Length of this node, not taking looseness into account.</param>
             /// <param name="minSizeVal">Minimum size of nodes in this octree.</param>
             /// <param name="centerVal">Centre position of this node.</param>
-            private void SetValues(float baseLengthVal, float minSizeVal, Vector3 centerVal)
+            private void SetValues(double baseLengthVal, double minSizeVal, Vector3 centerVal)
             {
                 SideLength = baseLengthVal;
                 _minSize = minSizeVal;
@@ -442,8 +442,8 @@ namespace Octree
                 _actualBoundsSize = new Vector3(SideLength, SideLength, SideLength);
                 _bounds = new BoundingBox(Center, _actualBoundsSize);
 
-                float quarter = SideLength / 4f;
-                float childActualLength = SideLength / 2;
+                double quarter = SideLength / 4f;
+                double childActualLength = SideLength / 2;
                 Vector3 childActualSize = new Vector3(childActualLength, childActualLength, childActualLength);
                 _childBounds = new BoundingBox[8];
                 _childBounds[0] = new BoundingBox(Center + new Vector3(-quarter, quarter, -quarter), childActualSize);
@@ -548,8 +548,8 @@ namespace Octree
             /// </summary>
             private void Split()
             {
-                float quarter = SideLength / 4f;
-                float newLength = SideLength / 2;
+                double quarter = SideLength / 4f;
+                double newLength = SideLength / 2;
                 _children = new Node[8];
                 _children[0] = new Node(newLength, _minSize, Center + new Vector3(-quarter, quarter, -quarter));
                 _children[1] = new Node(newLength, _minSize, Center + new Vector3(quarter, quarter, -quarter));

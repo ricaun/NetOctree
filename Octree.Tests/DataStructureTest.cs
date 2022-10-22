@@ -6,11 +6,11 @@
 
 namespace Octree.Tests
 {
+    using Shouldly;
     using System;
     using System.Collections.Generic;
-    using System.Numerics;
+    using System.DoubleNumerics;
     using System.Text;
-    using Shouldly;
     using Xunit;
 
     public class DataStructureTest
