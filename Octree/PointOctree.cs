@@ -7,6 +7,7 @@
 // </copyright>
 namespace Octree
 {
+    using NLog;
     using System.Collections.Generic;
     using System.Numerics;
 
@@ -60,6 +61,17 @@ namespace Octree
         public BoundingBox MaxBounds
         {
             get { return new BoundingBox(_rootNode.Center, new Vector3(_rootNode.SideLength, _rootNode.SideLength, _rootNode.SideLength)); }
+        }
+
+        /// <summary>
+        /// Gets All the bounding box that represents the whole octree
+        /// </summary>
+        /// <returns></returns>
+        public BoundingBox[] GetChildBounds()
+        {
+            var bounds = new List<BoundingBox>();
+            _rootNode.GetChildBounds(bounds);
+            return bounds.ToArray();
         }
 
         /// <summary>
