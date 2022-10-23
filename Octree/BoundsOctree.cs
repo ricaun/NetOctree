@@ -214,7 +214,7 @@ namespace Octree
         /// <param name="checkRay">ray to check.</param>
         /// <param name="maxDistance">distance to check.</param>
         /// <returns>Objects that intersect with the specified ray.</returns>
-        public T[] GetColliding(Ray checkRay, double maxDistance = float.PositiveInfinity)
+        public T[] GetColliding(Ray checkRay, double maxDistance = double.PositiveInfinity)
         {
             List<T> collidingWith = new List<T>();
             _rootNode.GetColliding(ref checkRay, collidingWith, maxDistance);
@@ -245,7 +245,7 @@ namespace Octree
         /// <param name="checkRay">ray to check.</param>
         /// <param name="maxDistance">distance to check.</param>
         /// <returns><c>true</c> if items are found, <c>false</c> otherwise.</returns>
-        public bool GetCollidingNonAlloc(List<T> collidingWith, Ray checkRay, double maxDistance = float.PositiveInfinity)
+        public bool GetCollidingNonAlloc(List<T> collidingWith, Ray checkRay, double maxDistance = double.PositiveInfinity)
         {
             collidingWith.Clear();
             _rootNode.GetColliding(ref checkRay, collidingWith, maxDistance);

@@ -246,7 +246,7 @@ namespace Octree
             /// <param name="checkRay">Ray to check.</param>
             /// <param name="maxDistance">Distance to check.</param>
             /// <returns>True if there was a collision.</returns>
-            public bool IsColliding(ref Ray checkRay, double maxDistance = float.PositiveInfinity)
+            public bool IsColliding(ref Ray checkRay, double maxDistance = double.PositiveInfinity)
             {
                 // Is the input ray at least partially in this node?
                 double distance;
@@ -319,7 +319,7 @@ namespace Octree
             /// <param name="maxDistance">Distance to check.</param>
             /// <param name="result">List result.</param>
             /// <returns>Objects that intersect with the specified ray.</returns>
-            public void GetColliding(ref Ray checkRay, List<T> result, double maxDistance = float.PositiveInfinity)
+            public void GetColliding(ref Ray checkRay, List<T> result, double maxDistance = double.PositiveInfinity)
             {
                 double distance;
                 // Is the input ray at least partially in this node?
