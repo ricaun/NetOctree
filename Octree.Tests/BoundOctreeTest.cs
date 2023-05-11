@@ -166,6 +166,22 @@ namespace Octree.Tests
         }
 
         /// <summary>
+        /// Tests the <see cref="BoundsOctree{T}.Remove(T)" /> method.
+        /// </summary>
+        [Fact]
+        public void RemoveTest2()
+        {
+            // Add points
+            for (int i = 1; i < 100000; ++i)
+                _octree.Add(i, new BoundingBox(new Vector3(i), Vector3.One));
+
+            // Should remove geometries based on object
+            for (int i = 1; i < 100000; ++i)
+                _octree.Remove(i).ShouldBeTrue();
+            _octree.Count.ShouldBe(0);
+        }
+
+        /// <summary>
         /// Tests the <see cref="BoundsOctree{T}.GetChildBounds" /> method.
         /// </summary>
         [Fact]

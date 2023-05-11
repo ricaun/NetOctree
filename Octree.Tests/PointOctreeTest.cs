@@ -142,6 +142,23 @@ namespace Octree.Tests
             _octree.Count.ShouldBe(0);
         }
 
+        [Fact]
+        public void RemoveTest2()
+        {
+            var size = 0.5;
+            // Add points.
+            for (int i = 1; i < 100; ++i)
+                _octree.Add(i, new Vector3(size * i));
+
+            // Should remove geometries based on object and bounding box
+            for (int i = 1; i < 100; ++i)
+            {
+                _octree.Remove(i, new Vector3(size * i)).ShouldBeTrue($"{i} {new Vector3(size * i)}");
+            }
+
+            _octree.Count.ShouldBe(0);
+        }
+
         /// <summary>
         /// Tests the <see cref="BoundsOctree{T}.GetChildBounds" /> method.
         /// </summary>

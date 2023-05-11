@@ -65,6 +65,11 @@ namespace Octree
         public int Count { get; private set; }
 
         /// <summary>
+        /// Elements
+        /// </summary>
+        private IDictionary<T, BoundingBox> Elements = new Dictionary<T, BoundingBox>();
+
+        /// <summary>
         /// Gets the bounding box that represents the whole octree
         /// </summary>
         /// <value>The bounding box of the root node.</value>
@@ -129,7 +134,7 @@ namespace Octree
                     return;
                 }
             }
-            Count++;
+            Count++; Elements.Add(obj, objBounds);
         }
 
         /// <summary>
@@ -139,16 +144,23 @@ namespace Octree
         /// <returns>True if the object was removed successfully.</returns>
         public bool Remove(T obj)
         {
-            bool removed = _rootNode.Remove(obj);
-
-            // See if we can shrink the octree down now that we've removed the item
-            if (removed)
+            if (Elements.TryGetValue(obj, out BoundingBox box))
             {
-                Count--;
-                Shrink();
+                return Remove(obj, box);
             }
 
-            return removed;
+            return false;
+
+            //bool removed = _rootNode.Remove(obj);
+
+            //// See if we can shrink the octree down now that we've removed the item
+            //if (removed)
+            //{
+            //    Count--;
+            //    Shrink();
+            //}
+
+            //return removed;
         }
 
         /// <summary>
@@ -164,7 +176,7 @@ namespace Octree
             // See if we can shrink the octree down now that we've removed the item
             if (removed)
             {
-                Count--;
+                Count--; Elements.Remove(obj);
                 Shrink();
             }
 
